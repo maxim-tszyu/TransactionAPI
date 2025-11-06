@@ -13,7 +13,7 @@ class Transaction extends Model
     /** @use HasFactory<TransactionFactory> */
     use HasFactory;
 
-    protected $fillable = ['user_id', 'type', 'amount', 'comment', 'related_user_id'];
+    protected $fillable = ['user_id', 'type', 'amount', 'comment'];
 
     protected $casts = [
         'amount' => 'decimal:2',
@@ -25,8 +25,4 @@ class Transaction extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function relatedUser(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'related_user_id');
-    }
 }
