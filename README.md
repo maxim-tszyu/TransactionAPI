@@ -1,59 +1,177 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TransactionAPI
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+REST API для управления балансом пользователей. Реализованы операции пополнения, снятия, перевода средств и проверки
+баланса.
+Проект работает в контейнерах через **Laravel Sail** с базой данных **PostgreSQL**.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Технологии
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* **PHP 8.4**, **Laravel 11**
+* **PostgreSQL 18**
+* **Laravel Sail (Docker)**
+* **PHPUnit** для тестирования
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Установка и запуск
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 1. Клонирование репозитория
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+git clone https://github.com/maxim-tszyu/TransactionAPI
+cd TransactionAPI
+```
 
-## Laravel Sponsors
+### 2. Установка зависимостей
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+composer install
+```
 
-### Premium Partners
+### 3. Создание `.env`
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+cp .env.example .env
+```
 
-## Contributing
+### 4. Генерация ключа приложения
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+./vendor/bin/sail artisan key:generate
+```
 
-## Code of Conduct
+### 5. Запуск контейнеров
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+./vendor/bin/sail up -d
+```
 
-## Security Vulnerabilities
+### 6. Миграции и сиды
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+./vendor/bin/sail artisan migrate:fresh --seed
+```
 
-## License
+Автоматически создаются три пользователя:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- `Example user 1`
+- `Example user 2`
+- `Example user 3`
+
+---
+
+## API эндпоинты
+
+Вы можете посмотреть Postman коллекцию в файле [TransferAPI collection.postman_collection.json](TransferAPI%20collection.postman_collection.json)
+
+### POST `/api/deposit`
+
+**Назначение:** пополнение баланса пользователя
+
+**Параметры:**
+
+* `user_id` - ID пользователя
+* `amount` - сумма пополнения
+* `comment` (optional) - комментарий к переводу
+
+**Пример запроса:**
+
+```json
+{
+  "user_id": 1,
+  "amount": 500,
+  "comment": "пример"
+}
+```
+
+---
+
+### POST `/api/withdraw`
+
+**Назначение:** снятие средств с баланса пользователя
+
+**Параметры:**
+
+* `user_id` - ID пользователя
+* `amount` - сумма снятия
+
+**Пример запроса:**
+
+```json
+{
+  "user_id": 1,
+  "amount": 200
+}
+```
+
+---
+
+### POST `/api/transfer`
+
+**Назначение:** перевод средств между пользователями
+
+**Параметры:**
+
+* `from_user_id` - ID отправителя
+* `to_user_id` - ID получателя
+* `amount` - сумма перевода
+* `comment` (optional) - комментарий к переводу
+
+**Пример запроса:**
+
+```json
+{
+  "from_user_id": 1,
+  "to_user_id": 2,
+  "amount": 150
+}
+```
+
+---
+
+### GET `/api/balance/{user_id}`
+
+**Назначение:** получение текущего баланса пользователя
+
+**Параметры:**
+
+* `user_id` - ID пользователя (в URL)
+
+**Пример запроса:**
+
+```
+/api/balance/1
+```
+
+**Пример ответа:**
+
+```json
+{
+  "user_id": 1,
+  "balance": "150.00"
+}
+```
+
+## Тестирование
+
+### Запуск тестов
+
+```bash
+./vendor/bin/sail artisan test
+```
+
+### Пример вывода
+
+```
+PASS  Tests\Feature\BalanceApiTest
+✓ deposit successful
+✓ withdraw not enough balance
+✓ transfer between users
+✓ balance returns correct value
+```
+
+## Лицензия
+
+MIT [LICENSE](LICENSE). 
