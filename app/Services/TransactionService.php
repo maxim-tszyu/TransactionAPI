@@ -19,8 +19,10 @@ class TransactionService
     {
         $data = $request->validated();
         $transaction = DB::transaction(function () use ($data) {
-            $user = User::findOrFail($data['user_id']);
-
+            $user = User::find($data['user_id']);
+            if (!$user) {
+                abort(404, 'User not found.');
+            }
             $balance = Balance::firstOrCreate(
                 ['user_id' => $user->id],
                 ['balance' => 0]
@@ -42,11 +44,14 @@ class TransactionService
     {
         $data = $request->validated();
         $transaction = DB::transaction(function () use ($data) {
-            $user = User::findOrFail($data['user_id']);
+            $user = User::find($data['user_id']);
+            if (!$user) {
+                abort(404, 'User not found.');
+            }
             $balance = $user->balance;
 
             if ($balance->balance < $data['amount']) {
-                throw new HttpException(409, 'Недостаточно средств на балансе');
+                throw new HttpException(409, 'Not enough balance.');
             }
 
             $balance->decrement('balance', $data['amount']);
@@ -66,12 +71,18 @@ class TransactionService
     {
         $data = $request->validated();
         return DB::transaction(function () use ($data) {
-            $user_from = User::findOrFail($data['from_user_id']);
-            $user_to = User::findOrFail($data['to_user_id']);
+            $user_from = User::find($data['from_user_id']);
+            if (! $user_from) {
+                abort(404, 'User not found.');
+            }
+            $user_to = User::find($data['to_user_id']);
+            if (! $user_to) {
+                abort(404, 'User not found.');
+            }
 
             $balance_from = $user_from->balance;
             if ($balance_from->balance < $data['amount']) {
-                throw new HttpException(409, 'Недостаточно средств на балансе');
+                abort(409, 'Not enough balance.');
             }
 
             $balance_to = Balance::firstOrCreate(

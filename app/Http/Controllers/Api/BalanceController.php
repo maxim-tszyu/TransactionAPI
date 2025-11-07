@@ -9,7 +9,6 @@ use App\Http\Requests\WithdrawRequest;
 use App\Models\User;
 use App\Services\TransactionService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class BalanceController extends Controller
 {
@@ -19,9 +18,14 @@ class BalanceController extends Controller
 
     public function deposit(DepositRequest $request): JsonResponse
     {
+        if (!$request->isJson()) {
+            abort(400, 'Incorrect request:json expected.');
+        }
+
         $transaction = $this->service->deposit($request);
 
         return response()->json([
+            'status' => '200',
             'message' => 'Deposit successful',
             'transaction' => $transaction,
         ]);
@@ -29,9 +33,14 @@ class BalanceController extends Controller
 
     public function withdraw(WithdrawRequest $request): JsonResponse
     {
+        if (!$request->isJson()) {
+            abort(400, 'Incorrect request:json expected.');
+        }
+
         $transaction = $this->service->withdraw($request);
 
         return response()->json([
+            'status' => '200',
             'message' => 'Withdraw successful',
             'transaction' => $transaction,
         ]);
@@ -39,23 +48,31 @@ class BalanceController extends Controller
 
     public function transfer(TransferRequest $request): JsonResponse
     {
+        if (!$request->isJson()) {
+            abort(400, 'Incorrect request:json expected.');
+        }
+
         $transactions = $this->service->transfer($request);
 
         return response()->json([
+            'status' => '200',
             'message' => 'Transfer successful',
             'transaction' => $transactions['transaction'],
             'related_transaction' => $transactions['related_transaction'],
         ]);
     }
 
-    public function balance(Request $request, int $user_id): JsonResponse
+    public function balance(int $user_id): JsonResponse
     {
-        $user = User::findOrFail($user_id);
-        $balance = $user->balance?->balance ?? 0;
+        $user = User::find($user_id);
+        if (!$user) {
+            abort(404, 'User not found.');
+        }
 
         return response()->json([
+            'status' => '200',
             'user_id' => $user->id,
-            'balance' => $balance,
+            'balance' => $user->balance?->balance ?? 0,
         ]);
     }
 }
