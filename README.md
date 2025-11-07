@@ -36,16 +36,16 @@ composer install
 cp .env.example .env
 ```
 
-### 4. Генерация ключа приложения
-
-```bash
-./vendor/bin/sail artisan key:generate
-```
-
-### 5. Запуск контейнеров
+### 4. Запуск контейнеров
 
 ```bash
 ./vendor/bin/sail up -d
+```
+
+### 5. Генерация ключа приложения
+
+```bash
+./vendor/bin/sail artisan key:generate
 ```
 
 ### 6. Миграции и сиды
