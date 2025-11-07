@@ -11,7 +11,6 @@ use App\Models\Balance;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class TransactionService
 {
@@ -48,10 +47,11 @@ class TransactionService
             if (!$user) {
                 abort(404, 'User not found.');
             }
-            $balance = $user->balance;
+
+            $user->balance ? $balance = $user->balance : abort(409, 'User does not have a balance.');
 
             if ($balance->balance < $data['amount']) {
-                throw new HttpException(409, 'Not enough balance.');
+                abort(409, 'Not enough balance.');
             }
 
             $balance->decrement('balance', $data['amount']);
@@ -80,7 +80,7 @@ class TransactionService
                 abort(404, 'User not found.');
             }
 
-            $balance_from = $user_from->balance;
+            $user_from->balance ? $balance_from = $user_from->balance : abort(409, 'User does not have a balance.');
             if ($balance_from->balance < $data['amount']) {
                 abort(409, 'Not enough balance.');
             }

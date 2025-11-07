@@ -1,136 +1,181 @@
 {
-	"info": {
-		"_postman_id": "8812374a-ec0b-4cbb-a1b7-d2d078c0ef11",
-		"name": "TransferAPI collection",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "44716746"
-	},
-	"item": [
-		{
-			"name": "Deposit",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"accept": true
-				}
-			},
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Authorization",
-						"value": "Bearer 2|obzGB6dJbD3CwT21hLirdfQ3u1glYhKGDl0C94Jr77c4975c",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"user_id\": 1,\r\n  \"amount\": 200.01,\r\n  \"comment\": \"test\"\r\n}\r\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:80/api/deposit/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "80",
-					"path": [
-						"api",
-						"deposit",
-						""
-					],
-					"query": [
-						{
-							"key": "email",
-							"value": "qwefghnz@gmail.com",
-							"disabled": true
-						},
-						{
-							"key": "password",
-							"value": "admin123",
-							"disabled": true
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Withdraw",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"user_id\": 1,\r\n  \"amount\": 100,\r\n  \"comment\": \"test\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:80/api/withdraw/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "80",
-					"path": [
-						"api",
-						"withdraw",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Transfer",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"from_user_id\": 1,\r\n  \"to_user_id\": 2,\r\n  \"amount\": 100,\r\n  \"comment\": \"test\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:80/api/transfer/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "80",
-					"path": [
-						"api",
-						"transfer",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Balance",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
+  "info": {
+	"_postman_id": "8812374a-ec0b-4cbb-a1b7-d2d078c0ef11",
+	"name": "TransferAPI collection",
+	"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+	"_exporter_id": "44716746"
+  },
+  "item": [
+	{
+	  "name": "Deposit",
+	  "protocolProfileBehavior": {
+		"disabledSystemHeaders": {
+		  "accept": true
 		}
-	]
+	  },
+	  "request": {
+		"method": "POST",
+		"header": [
+		  {
+			"key": "Accept",
+			"value": "application/json",
+			"type": "text"
+		  },
+		  {
+			"key": "Authorization",
+			"value": "Bearer 2|obzGB6dJbD3CwT21hLirdfQ3u1glYhKGDl0C94Jr77c4975c",
+			"type": "text",
+			"disabled": true
+		  }
+		],
+		"body": {
+		  "mode": "raw",
+		  "raw": "{\r\n  \"user_id\": 4,\r\n  \"amount\": 300,\r\n  \"comment\": \"test\"\r\n}\r\n",
+		  "options": {
+			"raw": {
+			  "language": "json"
+			}
+		  }
+		},
+		"url": {
+		  "raw": "http://localhost:80/api/deposit/",
+		  "protocol": "http",
+		  "host": [
+			"localhost"
+		  ],
+		  "port": "80",
+		  "path": [
+			"api",
+			"deposit",
+			""
+		  ],
+		  "query": [
+			{
+			  "key": "email",
+			  "value": "qwefghnz@gmail.com",
+			  "disabled": true
+			},
+			{
+			  "key": "password",
+			  "value": "admin123",
+			  "disabled": true
+			}
+		  ]
+		}
+	  },
+	  "response": []
+	},
+	{
+	  "name": "Withdraw",
+	  "protocolProfileBehavior": {
+		"disabledSystemHeaders": {
+		  "accept": true
+		}
+	  },
+	  "request": {
+		"method": "POST",
+		"header": [
+		  {
+			"key": "Accept",
+			"value": "application/json",
+			"type": "text"
+		  }
+		],
+		"body": {
+		  "mode": "raw",
+		  "raw": "{\r\n  \"user_id\": 1,\r\n  \"amount\": 100,\r\n  \"comment\": \"test\"\r\n}",
+		  "options": {
+			"raw": {
+			  "language": "json"
+			}
+		  }
+		},
+		"url": {
+		  "raw": "http://localhost:80/api/withdraw",
+		  "protocol": "http",
+		  "host": [
+			"localhost"
+		  ],
+		  "port": "80",
+		  "path": [
+			"api",
+			"withdraw"
+		  ]
+		}
+	  },
+	  "response": []
+	},
+	{
+	  "name": "Transfer",
+	  "request": {
+		"method": "POST",
+		"header": [],
+		"body": {
+		  "mode": "raw",
+		  "raw": "{\r\n  \"from_user_id\": 1,\r\n  \"to_user_id\": 2,\r\n  \"amount\": 100,\r\n  \"comment\": \"test\"\r\n}",
+		  "options": {
+			"raw": {
+			  "language": "json"
+			}
+		  }
+		},
+		"url": {
+		  "raw": "http://localhost:80/api/transfer/",
+		  "protocol": "http",
+		  "host": [
+			"localhost"
+		  ],
+		  "port": "80",
+		  "path": [
+			"api",
+			"transfer",
+			""
+		  ]
+		}
+	  },
+	  "response": []
+	},
+	{
+	  "name": "Balance",
+	  "protocolProfileBehavior": {
+		"disableBodyPruning": true,
+		"disabledSystemHeaders": {
+		  "accept": true
+		}
+	  },
+	  "request": {
+		"method": "GET",
+		"header": [
+		  {
+			"key": "Accept",
+			"value": "application/json",
+			"type": "text"
+		  }
+		],
+		"body": {
+		  "mode": "raw",
+		  "raw": "",
+		  "options": {
+			"raw": {
+			  "language": "json"
+			}
+		  }
+		},
+		"url": {
+		  "raw": "http://localhost:80/api/balance/1",
+		  "protocol": "http",
+		  "host": [
+			"localhost"
+		  ],
+		  "port": "80",
+		  "path": [
+			"api",
+			"balance",
+			"1"
+		  ]
+		}
+	  },
+	  "response": []
+	}
+  ]
 }

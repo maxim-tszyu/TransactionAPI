@@ -72,7 +72,7 @@ class BalanceController extends Controller
         return response()->json([
             'status' => '200',
             'user_id' => $user->id,
-            'balance' => $user->balance?->balance ?? 0,
+            'balance' => $user->balance?->balance ?? 'User does not have a balance.',
         ]);
     }
 }
